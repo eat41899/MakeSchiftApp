@@ -1,9 +1,10 @@
 <!DOCTYPE HTML>
 <html xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/xhtml">
 <head>
-    <title>MakeSchift Home</title>
+    <title>Welcome to MakeSchift</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.2/css/bootstrap-select.min.css"/>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
     <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
     <script src="https://unpkg.com/react@15/dist/react.js"></script>
@@ -11,6 +12,14 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-core/5.8.23/browser.min.js"></script>
     <script src="https://sdk.amazonaws.com/js/aws-sdk-2.7.20.min.js"></script>
     <script type="text/javascript" th:src="@{/javascript/keys.js}"></script>
+
+    <!-- Latest compiled and minified CSS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.2/js/bootstrap-select.min.js"></script>
+
+    <!-- (Optional) Latest compiled and minified JavaScript translation files -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.2/js/i18n/defaults-*.min.js"></script>
+
+
 
     <style>
  /* USER PROFILE PAGE */
@@ -31,7 +40,7 @@ body{
     background-color: rgba(255, 255, 255, 1);
 }
 .card.hovercard .card-background {
-    height: 230px;
+    height: 150px;
 }
 .card-background img {
     -webkit-filter: blur(25px);
@@ -66,7 +75,7 @@ body{
 }
 .card.hovercard .card-info .card-title {
     padding:0 5px;
-    font-size: 20px;
+    font-size: 30px;
     line-height: 1;
     color: #262626;
     background-color: rgba(255, 255, 255, 0.1);
@@ -95,6 +104,12 @@ body{
   background-color: #f79a79;
 }
 
+.downloadTable{
+color: #4286f4;
+font-weight:bold;
+
+}
+
 .th{
 text-align: right;
 }
@@ -103,10 +118,11 @@ text-align: right;
 table.downloadTable{
 
      border-radius: 15px;
+margin: 0 auto;
+     width: 980px;
+    
 
-    padding: 25px;
 
-    margin-left:230px;
     background-color: #ffffff;
 
 }
@@ -114,16 +130,26 @@ table.downloadTable{
 tr.downloadableRow{
 
 border-radius: 15px;
+background-color: #dabcdd;
 }
 
  td.downloadableCell{
 border-radius: 15px;
      background-color: #ffffff;
      border: 1px solid grey;
+     width:450px;
+font-weight: bold;
  }
  a.downloadableLink{
      color: black;
      width 250px;
+ }
+ a.accessButton{
+     -webkit-appearance: button;
+     -moz-appearance: button;
+     appearance: button;
+     text-decoration: none;
+     color: initial;
  }
 td.downloadableMessage{
 
@@ -133,12 +159,42 @@ td.deadlineCell{
 background-color: #e5e3e3;
 border-radius: 2px;
     border: 1px solid grey;
+    padding-right:20px;
+     padding-left: 20px;
+     font-weight: normal;
+     color: black;
+
 }
 td.countdownCell{
 background-color: #e5e3e3;
 border-radius: 2px;
     border: 1px solid grey;
+    padding-right:20px;
+     padding-left: 20px;
+     font-weight: normal;
+     color: black;
 }
+ td.downloadButtonCell{
+     background-color: #e5e3e3;
+     border-radius: 2px;
+     border: 1px solid grey;
+
+     color: #4286f4;
+
+ }
+ td.deleteButtonCell{
+     background-color: #e5e3e3;
+     border-radius: 2px;
+     border: 1px solid grey;
+     color: red;
+ }
+ p.filenameText{
+     margin: 0px;
+     color: black;
+     width 250px;
+     font-weight: bold;
+ }
+
 
 
     </style>
@@ -168,7 +224,7 @@ $(".btn-pref .btn").click(function () {
             <img  alt="" src="http://pictures.topspeed.com/IMG/crop/201608/lamborghini-aventado-10_600x0w.jpg"/>
         </div>
         <div class="card-info">
-            <span class="card-title">RekMor</span>
+            <span class="card-title" th:inline="text">[[${#httpServletRequest.remoteUser}]]</span>
         </div>
     </div>
     <div class="btn-pref btn-group btn-group-justified btn-group-lg" role="group" aria-label="...">
@@ -190,28 +246,13 @@ $(".btn-pref .btn").click(function () {
     </div>
     <div class="well" >
 <!--the following div displays the members on the home page-->
-        <div>
-            <table>
-                <tr>
-                    <th>id# </th>
-                    <th>Username </th>
-                    <th>First name</th>
-                </tr>
-                <tbody>
-                <tr th:each="user : ${userCollection}">
-                    <td th:text="${user.id}"></td>
-                    <td th:text="${user.username}"></td>
-                    <td th:text="${user.fname}"></td>
-                </tr>
-                </tbody>
-            </table>
-        </div>
+
 
          <div class="tab-content" style="text-align: center;">
              <!-- Tab 1: Mechanism for uploading the file -->
              <div class="tab-pane fade in active" id="tab1">
                  <!--Takes the username used to sign in and displays it in the homepage-->
-                 <h1 th:inline="text">Hello, [[${#httpServletRequest.remoteUser}]]!</h1>
+                 <h1>Upload and Send a File to a Friend!</h1>
                  <br/>
                  <!-- FileStack library and API. Note: data-fp-apikey="" is left empty for security reasons since
                       code will be made public on github -->
@@ -225,23 +266,46 @@ $(".btn-pref .btn").click(function () {
                          document.getElementById("link").value=event.fpfile.url;
                      }
                  </script>
+<div  style="display:inline-block;">
 
-                 <div style="align-content: center;">
-                     <input  id="fpButton" type="filepicker" data-fp-mimetypes="*/*"
-                             data-fp-container="modal" data-fp-store-location="S3" onchange="myfunc()" />
+                     <input  id="fpButton" type="filepicker" data-fp-mimetypes="*/*" data-fp-store-path="user1/"
+                             data-fp-container="modal" data-fp-store-access="public" data-fp-store-location="S3" onchange="myfunc()" />
                      <script type="text/javascript">
                          document.getElementById('fpButton').setAttribute( 'data-fp-apikey', filepickerKey )
                      </script>
-                 </div>
 
-                 <div>
-                     <input type="text" id="link"> link Genarator</input>
-                 </div>
+    <select  style="margin-left:10px;">
+        <option>Select Member</option>
+        <option th:each="user : ${userCollection}">
+            <td th:text="${user.username}"></td>
+            <!--<td th:text="${user.fname}"></td>-->
+        </option>
+    </select>
+
+    <script>
+        $('.selectpicker').selectpicker({
+  style: 'btn-info',
+  size: 4
+});
+
+    </script>
+</div>
+                 <!--<div>-->
+                     <!--<input type="text" id="link"> link Genarator</input>-->
+                 <!--</div>-->
              </div>
 
              <!-- Tab 2: List of files the user can download and their remaining time -->
              <div class="tab-pane fade in" id="tab2">
-                 <script type="text/babel">
+                 <script type="text/babel" th:inline="javascript">
+                     // Hardcoded user ID.  Once login is succcessful we will add this programatically.
+                     //var userID = 'user1';
+                     var userID = [[${#httpServletRequest.remoteUser}]];
+                     var userDir = encodeURIComponent( userID ) + '/';
+                     var bucketName = 'makeschiftbucket';
+                     var bucketURL = 'https://s3.amazonaws.com/'
+                                   + encodeURIComponent( bucketName ) + '/';
+                     var userURL = bucketURL + userDir;
                      var options = {
                          accessKeyId: akid,
                          secretAccessKey: secretKey,
@@ -249,28 +313,37 @@ $(".btn-pref .btn").click(function () {
                          apiVersion: '2006-03-01'
                      }
 
-                     var result = [testvar];
+                     var result = [[testvar, new Date(2017,2,29,22,59)]];
 
                      class DownloadableTableRow extends React.Component {
                          constructor( props ){
                              super( props );
                              this.state = {
-                                 countdown: this.timeLeft()
+                                 countdown: this.timeLeft(),
+                                 deleteFlag: false
                              };
+                             this.selfDelete = this.selfDelete.bind( this );
                          }
                          fullUrl() {
-                             return 'https://s3.amazonaws.com/makeschiftbucket/' + this.props.filename
+                             return userURL + this.props.filename
                          }
                          deadlineMessage(){
-                             return "Available until " + this.props.deadline.toLocaleString()
+                             return this.props.deadline.toLocaleString()
                          }
                          countdownMessage(){
                              return this.state.countdown
+                         }
+                         selfDownload(){
+                             this.setState( {deleteFlag: true} )
+                         }
+                         selfDelete(){
+                             this.setState( {deleteFlag: true} )
                          }
                          timeLeft(){
                              var deadline_ms = this.props.deadline.getTime()
                              var rightnow_ms = new Date().getTime()
                              var millis_left = deadline_ms - rightnow_ms
+                             this.setState( {deleteFlag: millis_left>0?false:true} ); // because thymeleaf hates if statements
                              return Math.floor(millis_left/3600000) + "h "
                                  + (Math.floor(millis_left/60000))%60 + "m "
                                  + (Math.floor(millis_left/1000))%60 + "s remaining"
@@ -290,42 +363,66 @@ $(".btn-pref .btn").click(function () {
                              });
                          }
                          render () {
+                             if( this.state.deleteFlag ){
+                                 return null;
+                             }
+                             const dlUrl = this.fullUrl();
+                             //const downloadButton = <button type="submit">Download!</button>;
                              return React.createElement(
                                  'tr', {className: "downloadableRow"},
                                  React.createElement(
                                      'td', {className: "downloadableCell"},
-                                     React.createElement( 'a', { className: "downloadableLink", href: this.fullUrl(), target: "_blank" }, this.props.filename )
+                                     React.createElement( 'p', { className: "filenameText" }, this.props.filename )
                                  ),
                                  React.createElement(
                                      'td', { className: "deadlineCell" }, this.deadlineMessage()
                                  ),
                                  React.createElement(
                                      'td', { className: "countdownCell" }, this.countdownMessage()
+                                 ),
+                                 React.createElement(
+                                     'td', { className: "downloadButtonCell" },
+                                     React.createElement( 'a', { className: "btn btn-primary", href: dlUrl, target: "_blank", onClick: this.selfDelete}, "Access" )
+                                 ),
+                                 React.createElement(
+                                     'td', { className: "deleteButtonCell" },
+                                     React.createElement( 'button', { className: "btn btn-danger", onClick: this.selfDelete}, 'Delete' )
                                  )
                              );
                          }
                      }
 
-                             class DownloadableTable extends React.Component {
-                                 constructor( props ){
-                                     super( props );
-                                     this.state = {
-                                         filelist: this.listObjs()
-                                     };
-                                 }
-                                 listObjs() {
+                     class DownloadableTable extends React.Component {
+                         constructor( props ){
+                             super( props );
+                             this.state = {
+                                 filelist: this.listObjs()
+                             };
+                         }
+                         listObjs() {
+                             // This whole function should probably only update state.filelist
+                             // AWS JS could probably be called separately?
                              var s3 = new AWS.S3( options );
                              var params = {
-                                 Bucket: "makeschiftbucket"
+                                 Prefix: userDir,
+                                 Bucket: bucketName
                              };
-                             console.log('s3 region is', s3.config );
                              s3.listObjectsV2( params, function(err,data) {
                                  if (err) {
                                      console.log(err, err.stack);
                                  }
                                  else{
-                                     result = data.Contents.map( function(fn) {
-                                         return fn.Key; //Bad solution for async
+                                     // Result is a global variable.
+                                     // This is bad.  Needs a real async solution.
+                                     result = [];
+                                     data.Contents.forEach( function(fn) {
+                                         if( fn.Key != userDir ){
+                                             result.push( [
+                                                 fn.Key.replace( userDir, '' ),
+                                                 fn.LastModified
+                                                 ]
+                                             );
+                                         }
                                      })
                                  }
                              });
@@ -346,13 +443,22 @@ $(".btn-pref .btn").click(function () {
                              });
                          }
                          render () {
-                             const element = <tr classname="downloadableHeaderRow" ><th>...Filename</th><th>Deadline</th><th>Time Left</th></tr>;
+                             const tableHead = <thead><tr className="downloadableHeaderRow" >
+                                                   <td>Filename</td><td>Deadline</td><td>Time Left</td><td></td>
+                                               </tr></thead>;
                              return React.createElement(
-                                 "table",
-                                 {className: "downloadTable"},
-                                 element,
-                                 this.state.filelist.map( (fn) =>
-                                     React.createElement(DownloadableTableRow, { filename: fn, deadline: new Date(2017,2,15,22,30) } )
+                                 'table',
+                                 {className: 'downloadTable'},
+                                 tableHead,
+                                 React.createElement(
+                                     'tbody',
+                                     {},
+                                     this.state.filelist.map( ([fname,fdate]) =>
+                                         React.createElement(DownloadableTableRow, {
+                                             filename: fname,
+                                             deadline: new Date( fdate.getTime() + 30000)  // +1/2 minute, DST whatevah
+                                         })
+                                     )
                                  )
                              );
                          }
